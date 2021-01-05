@@ -1,1 +1,2 @@
-#hej
+
+class Mastermind()
