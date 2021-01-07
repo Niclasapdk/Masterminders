@@ -1,8 +1,3 @@
-Components
-•	Mastermind unit with peg tray
-•	80 code pegs.
-
-
 Object of the Game
 To outsmart your opponent with a clever code or great guesswork.
 As the Codemaker: your goal is to set a mystery code so cunning that it will keep your opponent guessing for as long as possible.

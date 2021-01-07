@@ -27,12 +27,13 @@ class mainmenu():
     def start(self):
         print("start has been pressed")
         Game(Toplevel(self.root))
+        #self.root.destroy()
+
+
 
     def rules(self):
         print("rules have been pressed")
         webbrowser.open("Rules.txt")
-
-
 
 
 
@@ -52,17 +53,6 @@ def main():
 if __name__ == "__main__":
     main()
 
-
-
-
-
-
-
-
-
-
-def Main():
-    pass
 
 
 
