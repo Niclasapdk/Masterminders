@@ -39,9 +39,10 @@ class Rules(mainmenu):
         self.root.geometry("400x370")
 
         self.configfile = Label(self.root, width=45, height=20)
+        self.configfile.place(relx=0.5, rely=0.5, anchor=CENTER)
         self.text = open("Rules.txt")
         self.t = self.text.readlines()
-        self.configfile.insert(END, self.t)
+        self.configfile.config(text=self.t)
 
 
 
