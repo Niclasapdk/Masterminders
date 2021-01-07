@@ -43,6 +43,7 @@ class Rules(mainmenu):
         self.text = open("Rules.txt")
         self.t = self.text.readlines()
         self.configfile.config(text=self.t)
+        #de
 
 
 
