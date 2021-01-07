@@ -5,7 +5,7 @@ class MastermindData:
         pass
 
 
-    def 
+    def
 
 
 
