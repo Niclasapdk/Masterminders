@@ -1,8 +1,9 @@
+import random
 
 class MastermindData:
 
     def __init__(self):
-        self.buffer = 'buffer'
+        pass
 
     def check(self, code, guess):
         for i in range(4):
@@ -15,5 +16,11 @@ class MastermindData:
             if guess[i] != 'check' and guess[i] != 'half':
                 guess[i] = 'wrong'
         return guess
+
+    def randomcode(self):
+        code = []
+        for i in range(4):
+            code = code + [random.randrange(0, 8)]
+        return code
 
 
