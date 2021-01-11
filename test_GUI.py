@@ -6,6 +6,16 @@ class test_GUI(Logik.MastermindLogik):
         print('Welkommen til mastermind')
         code = self.randomkode()
         for i in range(10):
+            print('''farver:
+    Rød
+    Lilla
+    Blå
+    Gul
+    Grøn
+    Orange
+    Hvid
+    Pink
+            ''')
             guess = input(f'gæt nummer {i}:')
             guess = guess.split()
             print(guess)
