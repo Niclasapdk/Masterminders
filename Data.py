@@ -20,7 +20,7 @@ class MastermindData:
     def randomcode(self):
         code = []
         for i in range(4):
-            code = code + [random.randrange(0, 8)]
+            code = code + [random.randrange(1, 9)]
         return code
 
 
