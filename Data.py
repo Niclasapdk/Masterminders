@@ -18,9 +18,9 @@ class MastermindData:
         return guess
 
     def randomcode(self):
-        code = []
-        for i in range(4):
-            code = code + [random.randrange(1, 9)]
+        code = [1, 2, 3, 4, 5, 6, 7, 8]
+        random.shuffle(code)
+        code = [code[0], code[1], code[2], code[3]]
         return code
 
 
