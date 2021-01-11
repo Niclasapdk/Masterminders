@@ -20,5 +20,3 @@ class MastermindLogik(Data.MastermindData):
        return self.check(codeconverted, guessconverted)
 
 
-
-
