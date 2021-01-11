@@ -19,4 +19,8 @@ class MastermindLogik(Data.MastermindData):
 
        return self.check(codeconverted, guessconverted)
 
+    def randomkode(self):
+        kode = self.randomcode()
+        return self.talkonverter(kode[0], kode[1], kode[2], kode[3])
+
 
