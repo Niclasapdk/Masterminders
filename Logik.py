@@ -1,5 +1,6 @@
 import Data
 
+
 class MastermindLogik(Data.MastermindData):
 
     def __init__(self):
@@ -8,13 +9,16 @@ class MastermindLogik(Data.MastermindData):
     def konverter(self, farve1, farve2, farve3, farve4):
        return [self.Farvemap[farve1], self.Farvemap[farve2], self.Farvemap[farve3], self.Farvemap[farve4]]
 
-
     def match(self, code, guess):
 
-       codeconverted = self.konverter(code[0], code[1], code[2], code[3])
-       guessconverted = self.konverter(guess[0], guess[1], guess[2], guess[3])
+        codeconverted = self.konverter(code[0], code[1], code[2], code[3])
+        guessconverted = self.konverter(guess[0], guess[1], guess[2], guess[3])
 
-       return self.check(codeconverted, guessconverted)
+        return self.check(codeconverted, guessconverted)
 
+    def randomkode(self):
+        kode = self.randomcode()
+        konkode = self.konverter(kode[0], kode[1], kode[2], kode[3])
+        return konkode
 
 
