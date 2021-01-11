@@ -5,7 +5,6 @@ class test_GUI(Logik.MastermindLogik):
     def spil(self):
         print('Welkommen til mastermind')
         code = self.randomkode()
-        print(code)
         for i in range(10):
             print('''farver:
     Rød
