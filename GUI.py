@@ -3,6 +3,8 @@ from PIL import ImageTk, Image
 import webbrowser
 
 
+board = [[None] * 4 for _ in range(10)]
+
 class SampleApp(Tk):
     def __init__(self, *args, **kwargs):
         Tk.__init__(self, *args, **kwargs)
@@ -12,6 +14,7 @@ class SampleApp(Tk):
         # will be raised above the others
         container = Frame(self)
         container.pack(side="top", fill="both", expand=True)
+        #container.grid(sticky="N",ipadx = "200", ipady="200")
         container.grid_rowconfigure(0, weight=1)
         container.grid_columnconfigure(0, weight=1)
 
@@ -34,7 +37,7 @@ class SampleApp(Tk):
             self.geometry("800x600")
         else:
             self.title("Game")
-            self.geometry("1200x720")
+            self.geometry("455x900")
         # Show a frame for the given page name
         frame = self.frames[page_name]
         frame.tkraise()
@@ -49,9 +52,6 @@ class StartPage(Frame):
     def __init__(self, parent, controller):
         Frame.__init__(self, parent)
         self.controller = controller
-
-        self.controller.title("Main Menu")
-        self.controller.geometry("800x600")
         self.configure(bg="royalblue2")
         self.img = Image.open("mastermind.png")
         self.imageSizeWidth, self.imageSizeHeight = self.img.size
@@ -80,16 +80,29 @@ class PageOne(Frame):
     def __init__(self, parent, controller):
         Frame.__init__(self, parent)
         self.controller = controller
-
-        self.controller.title("Game")
-        self.controller.geometry("800x600")
         self.configure(bg="royalblue2")
 
         label = Label(self, text="This is page 1")
-        label.pack(side="bottom", fill="x", pady=10)
+        label.place(x=10, y=860)
         button = Button(self, text="Go to the start page",
                         command=lambda: controller.show_frame("StartPage"))
-        button.pack(side="bottom")
+        button.place(x=10, y=830)
+
+        for i, row in enumerate(board):
+            for j, column in enumerate(row):
+                L = Label(self, text="test", bg='grey')
+                L.grid(row=i, column=1+j)
+                L.config(width=10, height=5)
+
+        for i, row in enumerate(board):
+            L = Label(self, text="hvid", bg='white')
+            L.grid(row=i, column=0)
+            L.config(width=10, height=5)
+
+        for i, row in enumerate(board):
+            L = Label(self, text="rød", bg='red')
+            L.grid(row=i, column=5)
+            L.config(width=10, height=5)
 
 
 if __name__ == "__main__":
