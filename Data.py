@@ -22,7 +22,7 @@ class MastermindData:
         kode = []
         random.shuffle(code)
         for i in range(n):
-            kode = kode + [code[n]]
+            kode = kode + [code[i]]
         return kode
 
 

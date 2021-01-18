@@ -1,9 +1,7 @@
-print("Din far")
+import Logik
+import Data
+D = Data.MastermindData()
+L = Logik.MastermindLogik()
+#print(L.randomkode())
+print(D.randomcode())
 
-print("Din mor")
-
-print("Din søster")
-
-print("Fordi linjer er seje")
-
-print('big dick Mcgee')
