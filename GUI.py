@@ -47,6 +47,13 @@ def Rules():
     print("rules have been pressed")
     webbrowser.open("Rules.txt")
 
+def on_click(i, j, event):
+    # finder farven på det label man trykkede på
+    lblcolor = event.widget.cget("bg")
+    lblnumber = event.widget.cget("text")
+    print("Color:", lblcolor, ", Tile column:", event.widget.grid_info()["column"], ", Tile row:", event.widget.grid_info()["row"])
+    tilex = event.widget.grid_info()["column"]
+    tiley = event.widget.grid_info()["row"]
 
 class StartPage(Frame):
     def __init__(self, parent, controller):
@@ -91,15 +98,18 @@ class PageOne(Frame):
         for i, row in enumerate(board):
             for j, column in enumerate(row):
                 L = Label(self, text="test", bg='grey')
+                L.bind('<Button-1>', lambda e, i=i, j=j: on_click(i, j, e))
                 L.grid(row=i, column=1+j)
                 L.config(width=10, height=5)
 
         for i, row in enumerate(board):
             L = Label(self, text="hvid", bg='white')
+            L.bind('<Button-1>', lambda e, i=i, j=j: on_click(i, j, e))
             L.grid(row=i, column=0)
             L.config(width=10, height=5)
 
         for i, row in enumerate(board):
+            L.bind('<Button-1>', lambda e, i=i, j=j: on_click(i, j, e))
             L = Label(self, text="rød", bg='red')
             L.grid(row=i, column=5)
             L.config(width=10, height=5)
