@@ -29,6 +29,12 @@ class SampleApp(Tk):
         self.show_frame("StartPage")
 
     def show_frame(self, page_name):
+        if page_name == "StartPage":
+            self.title("Main Menu")
+            self.geometry("800x600")
+        else:
+            self.title("Game")
+            self.geometry("1200x720")
         # Show a frame for the given page name
         frame = self.frames[page_name]
         frame.tkraise()
@@ -71,7 +77,6 @@ class StartPage(Frame):
 
 
 class PageOne(Frame):
-
     def __init__(self, parent, controller):
         Frame.__init__(self, parent)
         self.controller = controller
@@ -81,10 +86,10 @@ class PageOne(Frame):
         self.configure(bg="royalblue2")
 
         label = Label(self, text="This is page 1")
-        label.pack(side="top", fill="x", pady=10)
+        label.pack(side="bottom", fill="x", pady=10)
         button = Button(self, text="Go to the start page",
                         command=lambda: controller.show_frame("StartPage"))
-        button.pack()
+        button.pack(side="bottom")
 
 
 if __name__ == "__main__":

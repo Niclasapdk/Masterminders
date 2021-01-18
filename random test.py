@@ -7,7 +7,6 @@ class SampleApp(Tk):
     def __init__(self, *args, **kwargs):
         Tk.__init__(self, *args, **kwargs)
 
-
         # the container is where we'll stack a bunch of frames
         # on top of each other, then the one we want visible
         # will be raised above the others
@@ -30,22 +29,29 @@ class SampleApp(Tk):
         self.show_frame("StartPage")
 
     def show_frame(self, page_name):
-        #Show a frame for the given page name
+        if page_name == "StartPage":
+            self.title("Main Menu")
+            self.geometry("800x600")
+        elif page_name == "PageOne":
+            self.title("Game")
+            self.geometry("1200x720")
+
+        # Show a frame for the given page name
         frame = self.frames[page_name]
         frame.tkraise()
+
 
 def Rules():
     print("rules have been pressed")
     webbrowser.open("Rules.txt")
 
+
 class StartPage(Frame):
     def __init__(self, parent, controller):
         Frame.__init__(self, parent)
         self.controller = controller
-
-        self.controller.title("Main Menu")
-        self.controller.geometry("800x600")
         self.configure(bg="royalblue2")
+
         self.img = Image.open("mastermind.png")
         self.imageSizeWidth, self.imageSizeHeight = self.img.size
         self.n = 0.25
@@ -58,37 +64,24 @@ class StartPage(Frame):
         self.titleimg = Label(self, image=self.test).place(relx=0.5, rely=0.19, anchor=CENTER)
         # self.Title = Label(self.root, text="MASTERMIND",font=("Times", "50", "bold"), bg="royalblue2", fg ="red4").place(relx=0.5, rely=0.2, anchor=CENTER)
 
-        self.StartButton = Button(self, text="Start Game", command=lambda: controller.show_frame("PageOne"), font=("Arial", "25"), bg="black",
+        self.StartButton = Button(self, text="Start Game", command=lambda: controller.show_frame("PageOne"),
+                                  font=("Arial", "25"), bg="black",
                                   fg="white").place(relx=0.5, rely=0.45, anchor=CENTER)
         self.RuleButton = Button(self, text="Rules", command=Rules, font=("Arial", "25"), bg="black",
                                  fg="white").place(relx=0.5, rely=0.6, anchor=CENTER)
 
 
-
-        #button1 = Button(self, text="Go to Page One",
-                            #command=lambda: controller.show_frame("PageOne"))
-        #button1.pack()
-
-
-
-
 class PageOne(Frame):
-
     def __init__(self, parent, controller):
         Frame.__init__(self, parent)
         self.controller = controller
-
-        self.controller.title("Game")
-        self.controller.geometry("800x600")
-        self.configure(bg="royalblue2")
+        self.configure(bg="black")
 
         label = Label(self, text="This is page 1")
         label.pack(side="top", fill="x", pady=10)
         button = Button(self, text="Go to the start page",
-                           command=lambda: controller.show_frame("StartPage"))
+                        command=lambda: controller.show_frame("StartPage"))
         button.pack()
-
-
 
 
 if __name__ == "__main__":
