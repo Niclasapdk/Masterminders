@@ -2,8 +2,9 @@ from tkinter import *
 from PIL import ImageTk, Image
 import webbrowser
 
-
+turncount = 0
 board = [[None] * 4 for _ in range(10)]
+
 
 class SampleApp(Tk):
     def __init__(self, *args, **kwargs):
@@ -14,7 +15,7 @@ class SampleApp(Tk):
         # will be raised above the others
         container = Frame(self)
         container.pack(side="top", fill="both", expand=True)
-        #container.grid(sticky="N",ipadx = "200", ipady="200")
+        # container.grid(sticky="N",ipadx = "200", ipady="200")
         container.grid_rowconfigure(0, weight=1)
         container.grid_columnconfigure(0, weight=1)
 
@@ -47,13 +48,33 @@ def Rules():
     print("rules have been pressed")
     webbrowser.open("Rules.txt")
 
+
 def on_click(i, j, event):
-    # finder farven på det label man trykkede på
+    global turncount
+    colors = ["grey", "red", "purple", "blue", "yellow", "green", "orange", "white", "pink"]
+    # finder værdierne til det label man trykkede på
     lblcolor = event.widget.cget("bg")
     lblnumber = event.widget.cget("text")
-    print("Color:", lblcolor, ", Tile column:", event.widget.grid_info()["column"], ", Tile row:", event.widget.grid_info()["row"])
     tilex = event.widget.grid_info()["column"]
     tiley = event.widget.grid_info()["row"]
+    config = event.widget.config
+    print("Color:", lblcolor, ", Tile column:", tilex, ", Tile row:", tiley)
+
+    if 5 > tilex > 0 and tiley == turncount:
+        print("Valid pick")
+        if lblnumber == 8:
+            lblnumber = 1
+        else:
+            lblnumber = int(lblnumber) + 1
+        config(text=lblnumber)
+        config(bg=colors[int(lblnumber)])
+
+
+def check():
+    global turncount
+    if turncount < 10:
+        turncount += 1
+
 
 class StartPage(Frame):
     def __init__(self, parent, controller):
@@ -95,24 +116,29 @@ class PageOne(Frame):
                         command=lambda: controller.show_frame("StartPage"))
         button.place(x=10, y=830)
 
+        labels1 = []
+
         for i, row in enumerate(board):
             for j, column in enumerate(row):
-                L = Label(self, text="test", bg='grey')
+                L = Label(self, text="0", bg='grey', relief="groove")
                 L.bind('<Button-1>', lambda e, i=i, j=j: on_click(i, j, e))
-                L.grid(row=i, column=1+j)
+                L.grid(row=i, column=1 + j)
                 L.config(width=10, height=5)
 
         for i, row in enumerate(board):
-            L = Label(self, text="hvid", bg='white')
+            L = Label(self, text="hvid", bg='white', relief="groove")
             L.bind('<Button-1>', lambda e, i=i, j=j: on_click(i, j, e))
             L.grid(row=i, column=0)
             L.config(width=10, height=5)
 
         for i, row in enumerate(board):
             L.bind('<Button-1>', lambda e, i=i, j=j: on_click(i, j, e))
-            L = Label(self, text="rød", bg='red')
+            L = Label(self, text="rød", bg='red', relief="groove")
             L.grid(row=i, column=5)
             L.config(width=10, height=5)
+
+        button = Button(self, text="Check", command=check)
+        button.place(x=400, y=830)
 
 
 if __name__ == "__main__":
