@@ -4,6 +4,10 @@ import webbrowser
 
 turncount = 0
 board = [[None] * 4 for _ in range(10)]
+labels1 = []
+labelswhite = []
+labelsred = []
+
 
 
 class SampleApp(Tk):
@@ -71,8 +75,18 @@ def on_click(i, j, event):
 
 
 def check():
-    global turncount
+    global turncount, labels1, labelswhite, labelsred
+    # print(labels1)
+    print("check")
+
     if turncount < 10:
+        for i in range(4):
+            num = i + ((1 + turncount) * 4) - 4
+            print(num)
+            lblcolor = labels1[num].cget("bg")
+            lblnumber = labels1[num].cget("text")
+            print(lblcolor, lblnumber)
+
         turncount += 1
 
 
@@ -116,26 +130,30 @@ class PageOne(Frame):
                         command=lambda: controller.show_frame("StartPage"))
         button.place(x=10, y=830)
 
-        labels1 = []
-
         for i, row in enumerate(board):
             for j, column in enumerate(row):
-                L = Label(self, text="0", bg='grey', relief="groove")
-                L.bind('<Button-1>', lambda e, i=i, j=j: on_click(i, j, e))
-                L.grid(row=i, column=1 + j)
-                L.config(width=10, height=5)
+                lbl = Label(self, text="0", bg='grey', relief="groove")
+                labels1.append(lbl)
+                k = len(labels1) - 1
+                labels1[k].bind('<Button-1>', lambda e, i=i, j=j: on_click(i, j, e))
+                labels1[k].grid(row=i, column=1 + j)
+                labels1[k].config(width=10, height=5)
 
         for i, row in enumerate(board):
-            L = Label(self, text="hvid", bg='white', relief="groove")
-            L.bind('<Button-1>', lambda e, i=i, j=j: on_click(i, j, e))
-            L.grid(row=i, column=0)
-            L.config(width=10, height=5)
+            lbl2 = Label(self, text="hvid", bg='white', relief="groove")
+            labelswhite.append(lbl2)
+            k = len(labelswhite) - 1
+            labelswhite[k].bind('<Button-1>', lambda e, i=i , j=j: on_click(i, j, e))
+            labelswhite[k].grid(row=i, column=0)
+            labelswhite[k].config(width=10, height=5)
 
         for i, row in enumerate(board):
-            L.bind('<Button-1>', lambda e, i=i, j=j: on_click(i, j, e))
-            L = Label(self, text="rød", bg='red', relief="groove")
-            L.grid(row=i, column=5)
-            L.config(width=10, height=5)
+            lbl3 = Label(self, text="rød", bg='red', relief="groove")
+            labelsred.append(lbl3)
+            k = len(labelsred) - 1
+            labelsred[k].bind('<Button-1>', lambda e, i=i , j=j: on_click(i, j, e))
+            labelsred[k].grid(row=i, column=5)
+            labelsred[k].config(width=10, height=5)
 
         button = Button(self, text="Check", command=check)
         button.place(x=400, y=830)
