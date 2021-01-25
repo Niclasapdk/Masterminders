@@ -14,15 +14,18 @@ class MastermindLogik(Data.MastermindData):
 
     def match(self, code, guess):
 
-        for i in range(len(code))
+        for i in range(len(code)):
             codeconverted = self.konverter(code[i])
             guessconverted = self.konverter(guess[i])
 
         return self.check(codeconverted, guessconverted)
 
-    def randomkode(self):
-        kode = self.randomcode()
+    def randomkode(self, n):
+        code = self.randomcode(n-1)
+        kode = []
+        for i in range(n):
+            kode = kode + self.talkonverter(code[n])
 
-        return self.talkonverter(kode[0], kode[1], kode[2], kode[3])
+
 
 

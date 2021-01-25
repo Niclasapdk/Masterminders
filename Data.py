@@ -17,10 +17,12 @@ class MastermindData:
                 guess[i] = 'wrong'
         return guess
 
-    def randomcode(self):
+    def randomcode(self, n):
         code = [1, 2, 3, 4, 5, 6, 7, 8]
+        kode = []
         random.shuffle(code)
-        code = [code[0], code[1], code[2], code[3]]
-        return code
+        for i in range(n):
+            kode = kode + [code[i]]
+        return kode
 
 

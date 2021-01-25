@@ -4,7 +4,8 @@ import Logik
 class test_GUI(Logik.MastermindLogik):
     def spil(self):
         print('Welkommen til mastermind')
-        code = self.randomkode()
+        ting = int(input('hvor mange farver vil du have?: (4-8)'))
+        code = self.randomkode(ting)
         for i in range(10):
             print('''farver:
     Rød
