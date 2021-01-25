@@ -18,11 +18,11 @@ class MastermindLogik(Data.MastermindData):
             codeconverted = self.konverter(code[i])
             guessconverted = self.konverter(guess[i])
 
-       return self.check(codeconverted, guessconverted)
+        return self.check(codeconverted, guessconverted)
 
     def randomkode(self):
         kode = self.randomcode()
-        
+
         return self.talkonverter(kode[0], kode[1], kode[2], kode[3])
 
 
