@@ -6,7 +6,8 @@ class MastermindData:
         pass
 
     def check(self, code, guess):
-        for i in range(4):
+        for i in range(len(code)):
+
             if code[i] == guess[i]:
                 guess[i] = 'check'
 
@@ -23,6 +24,7 @@ class MastermindData:
         random.shuffle(code)
         for i in range(n):
             kode = kode + [code[i]]
+
         return kode
 
 

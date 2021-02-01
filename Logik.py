@@ -7,24 +7,20 @@ class MastermindLogik(Data.MastermindData):
         self.Talmap = {1: "Rød", 2: "Lilla", 3: "Blå", 4: "Gul", 5: "Grøn", 6: "Orange", 7: "Hvid", 8: "Pink"}
 
     def konverter(self, farve1):
-       return (self.Farvemap[farve1])
+        return self.Farvemap[farve1]
 
     def talkonverter(self, tal1):
-        return (self.Talmap[tal1])
+        return self.Talmap[tal1]
 
     def match(self, code, guess):
-
-        for i in range(len(code)):
-            codeconverted = self.konverter(code[i])
-            guessconverted = self.konverter(guess[i])
-
-        return self.check(codeconverted, guessconverted)
+        return self.check(code, guess)
 
     def randomkode(self, n):
-        code = self.randomcode(n-1)
+        code = self.randomcode(n)
         kode = []
         for i in range(n):
-            kode = kode + self.talkonverter(code[n])
+            kode = kode + [self.talkonverter(code[i])]
+        return kode
 
 
 
