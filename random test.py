@@ -1,6 +1,7 @@
 from tkinter import *
 from PIL import ImageTk, Image
-import webbrowser
+import webbrowser, Data, Logik
+
 
 turncount = 0
 board = [[None] * 4 for _ in range(10)]
@@ -87,6 +88,8 @@ def check():
             lblnumber = labels1[num].cget("text")
             print(lblcolor, lblnumber)
 
+        testcode = [1, 2, 3, 4]
+        Data.MastermindData.check(testcode,l)
         turncount += 1
 
 

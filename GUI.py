@@ -1,14 +1,14 @@
 from tkinter import *
 from PIL import ImageTk, Image
-import webbrowser
+import webbrowser, Logik
 
 turncount = 0
 board = [[None] * 4 for _ in range(10)]
 labels1 = []
 labelswhite = []
 labelsred = []
-
-
+logik = Logik.MastermindLogik()
+code = logik.randomkode(4)
 
 class SampleApp(Tk):
     def __init__(self, *args, **kwargs):
@@ -75,18 +75,30 @@ def on_click(i, j, event):
 
 
 def check():
-    global turncount, labels1, labelswhite, labelsred
+    global turncount, labels1, labelswhite, labelsred, logik, code
     # print(labels1)
     print("check")
-
+    checklblnum = []
+    checklblcol = []
     if turncount < 10:
         for i in range(4):
             num = i + ((1 + turncount) * 4) - 4
-            print(num)
-            lblcolor = labels1[num].cget("bg")
-            lblnumber = labels1[num].cget("text")
-            print(lblcolor, lblnumber)
+            #print(num)
+            checklblcol.append(labels1[num].cget("bg"))
+            checklblnum.append(labels1[num].cget("text"))
+        #print(checklblnum, checklblcol)
+        guess = checklblnum
+        print("Guess:", guess)
+        print("Code:", code)
+        result = logik.match(code, guess)
+        print("How close:", result)
 
+        check = result.count("check")
+
+        labelsred[turncount].config(text=result.count("check"))
+        labelswhite[turncount].config(text=result.count("half"))
+        if check == 4:
+            print("Sejr")
         turncount += 1
 
 
@@ -143,7 +155,6 @@ class PageOne(Frame):
             lbl2 = Label(self, text="hvid", bg='white', relief="groove")
             labelswhite.append(lbl2)
             k = len(labelswhite) - 1
-            labelswhite[k].bind('<Button-1>', lambda e, i=i , j=j: on_click(i, j, e))
             labelswhite[k].grid(row=i, column=0)
             labelswhite[k].config(width=10, height=5)
 
@@ -151,7 +162,6 @@ class PageOne(Frame):
             lbl3 = Label(self, text="rød", bg='red', relief="groove")
             labelsred.append(lbl3)
             k = len(labelsred) - 1
-            labelsred[k].bind('<Button-1>', lambda e, i=i , j=j: on_click(i, j, e))
             labelsred[k].grid(row=i, column=5)
             labelsred[k].config(width=10, height=5)
 

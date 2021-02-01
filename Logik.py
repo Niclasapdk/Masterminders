@@ -17,10 +17,10 @@ class MastermindLogik(Data.MastermindData):
 
     def randomkode(self, n):
         code = self.randomcode(n)
-        kode = []
-        for i in range(n):
-            kode = kode + [self.talkonverter(code[i])]
-        return kode
+        #kode = []
+        #for i in range(n):
+            #kode = kode + [self.talkonverter(code[i])]
+        return code
 
 
 
