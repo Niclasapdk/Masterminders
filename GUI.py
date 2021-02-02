@@ -1,14 +1,19 @@
+import Logik
+import webbrowser
 from tkinter import *
+
 from PIL import ImageTk, Image
-import webbrowser, Logik
+
+# Variables used for game
 
 turncount = 0
-board = [[None] * 4 for _ in range(10)]
+# board = [[None] * width for _ in range(height)]
 labels1 = []
 labelswhite = []
 labelsred = []
 logik = Logik.MastermindLogik()
 code = logik.randomkode(4)
+
 
 class SampleApp(Tk):
     def __init__(self, *args, **kwargs):
@@ -49,6 +54,7 @@ class SampleApp(Tk):
 
 
 def Rules():
+    # Opens a notepad with the rules
     print("rules have been pressed")
     webbrowser.open("Rules.txt")
 
@@ -83,10 +89,10 @@ def check():
     if turncount < 10:
         for i in range(4):
             num = i + ((1 + turncount) * 4) - 4
-            #print(num)
+            # print(num)
             checklblcol.append(labels1[num].cget("bg"))
             checklblnum.append(labels1[num].cget("text"))
-        #print(checklblnum, checklblcol)
+        # print(checklblnum, checklblcol)
         guess = checklblnum
         print("Guess:", guess)
         print("Code:", code)
@@ -98,8 +104,18 @@ def check():
         labelsred[turncount].config(text=result.count("check"))
         labelswhite[turncount].config(text=result.count("half"))
         if check == 4:
-            print("Sejr")
+            Winner = Tk()
+            lbl = Label(Winner, text="You won!")
+            lbl.grid(row=1, column=1)
+            done = Button(Winner, text="Quit", command=winner)
+            done.grid(row=2, column=1)
         turncount += 1
+
+
+def winner():
+    # SampleApp.show_frame("StartPage")
+    SampleApp.destroy()
+    SampleApp.__init__()
 
 
 class StartPage(Frame):
@@ -122,17 +138,41 @@ class StartPage(Frame):
         self.StartButton = Button(self, text="Start Game", command=lambda: controller.show_frame("PageOne"),
                                   font=("Arial", "25"), bg="black",
                                   fg="white").place(relx=0.5, rely=0.45, anchor=CENTER)
+        self.CustumButton = Button(self, text="Custom Game", command=self.custom, font=("Arial", "25"), bg="black",
+                                   fg="white").place(relx=0.5, rely=0.575, anchor=CENTER)
         self.RuleButton = Button(self, text="Rules", command=Rules, font=("Arial", "25"), bg="black",
-                                 fg="white").place(relx=0.5, rely=0.6, anchor=CENTER)
+                                 fg="white").place(relx=0.5, rely=0.7, anchor=CENTER)
 
         # button1 = Button(self, text="Go to Page One",
         # command=lambda: controller.show_frame("PageOne"))
         # button1.pack()
 
+    def custom(self):
+        self.customize = Tk()
+        Label(self.customize, text="Code Length").grid(row=0, column=1)
+        self.codelength = Entry(self.customize)
+        self.codelength.grid(row=1, column=1)
+        Label(self.customize, text="Attempts").grid(row=2, column=1)
+        self.attempts = Entry(self.customize)
+        self.attempts.grid(row=3, column=1)
+        done = Button(self.customize, text="Done", command=self.done).grid(row=4, column=1)
+
+    def done(self):
+        width = self.codelength.get()
+        height = self.attempts.get()
+        self.controller.show_frame("PageOne")
+        self.customize.destroy()
+        self.controller.destroy()
+        self.controller.__init__()
+        self.controller.update()
+
 
 class PageOne(Frame):
-    def __init__(self, parent, controller):
+    def __init__(self, parent, controller, board):
         Frame.__init__(self, parent)
+        if not "width" in locals() and not "height" in locals():
+            width = 4
+            height = 10
         self.controller = controller
         self.configure(bg="royalblue2")
 
