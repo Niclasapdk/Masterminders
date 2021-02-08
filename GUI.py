@@ -94,7 +94,8 @@ def on_click(i, j, event, width):
         config(bg=colors[int(lblnumber)])
 
 
-def check(turncount, labels1, labelswhite, labelsred, logik, code, width):
+def check(labels1, labelswhite, labelsred, logik, code, width):
+    global turncount
     # print(labels1)
     print("check")
     checklblnum = []
@@ -116,7 +117,7 @@ def check(turncount, labels1, labelswhite, labelsred, logik, code, width):
 
         labelsred[turncount].config(text=result.count("check"))
         labelswhite[turncount].config(text=result.count("half"))
-        if check == 4:
+        if check == width:
             Winner = Tk()
             lbl = Label(Winner, text="You won!")
             lbl.grid(row=1, column=1)
@@ -127,8 +128,9 @@ def check(turncount, labels1, labelswhite, labelsred, logik, code, width):
 
 def winner():
     # SampleApp.show_frame("StartPage")
-    SampleApp.destroy()
-    SampleApp.__init__()
+    #SampleApp.destroy()
+    #SampleApp.__init__()
+    pass
 
 
 class StartPage(Frame):
@@ -198,7 +200,7 @@ class PageOne(Frame):
             labelsred[k].config(width=10, height=5)
 
         button = Button(self, text="Check",
-                        command=lambda: check(turncount, labels1, labelswhite, labelsred, logik, code, width))
+                        command=lambda: check(labels1, labelswhite, labelsred, logik, code, width))
         button.place(x=400, y=830)
 
 
@@ -259,8 +261,8 @@ class PageTwo(Frame):
             labelsred2[k].config(width=10, height=5)
 
         button = Button(self, text="Check",
-                        command=lambda: check(turncount, labels2, labelswhite2, labelsred2, logik, code2, width2))
-        button.place(x=400, y=830)
+                        command=lambda: check(labels2, labelswhite2, labelsred2, logik, code2, width2))
+        button.grid(row=(height2+2), column=width2)
 
 
 if __name__ == "__main__":
