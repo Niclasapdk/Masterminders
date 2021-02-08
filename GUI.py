@@ -221,7 +221,8 @@ class PageTwo(Frame):
         self.attempts = Entry(self)
         self.attempts.grid(row=3, column=1)
 
-        Button(self, text="Done", command=self.build).grid(row=4, column=1)
+        self.done = Button(self, text="Done", command=self.build)
+        self.done.grid(row=4, column=1)
 
     def build(self):
         width2 = int(self.codelength.get())
@@ -231,6 +232,7 @@ class PageTwo(Frame):
         self.attemptstxt.destroy()
         self.codelengthtxt.destroy()
         self.controller.custom(width2)
+        self.done.destroy()
         code2 = logik.randomkode(width2)
         board2 = boardcreate(width2, height2)
         for i, row in enumerate(board2):
