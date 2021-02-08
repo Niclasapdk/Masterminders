@@ -13,7 +13,8 @@ class TestafLogikogdatalag(unittest.TestCase):
         self.assertEqual(xd.konverter("Rød"), 1)
 
     def test3(self):
-        
+        xd = Logik.MastermindLogik()
+        self.assertEqual(xd.check([1, 3, 5, 7], [1, 2, 3, 4]), ['check', 'wrong', 'half', 'wrong'])
 
 
 
