@@ -7,18 +7,24 @@ from PIL import ImageTk, Image
 # Variables used for game
 
 turncount = 0
-# board = [[None] * width for _ in range(height)]
+width = 4
+height = 10
+def Board(width, height):
+    board = [[None] * width for _ in range(height)]
+    return board
 labels1 = []
 labelswhite = []
 labelsred = []
+labels2 = []
+labelswhite2 = []
+labelsred2 = []
 logik = Logik.MastermindLogik()
-code = logik.randomkode(4)
+code = logik.randomkode(width)
 
 
 class SampleApp(Tk):
     def __init__(self, *args, **kwargs):
         Tk.__init__(self, *args, **kwargs)
-
         # the container is where we'll stack a bunch of frames
         # on top of each other, then the one we want visible
         # will be raised above the others
@@ -29,7 +35,7 @@ class SampleApp(Tk):
         container.grid_columnconfigure(0, weight=1)
 
         self.frames = {}
-        for F in (StartPage, PageOne):
+        for F in (StartPage, PageOne, PageTwo):
             page_name = F.__name__
             frame = F(parent=container, controller=self)
             self.frames[page_name] = frame
@@ -47,10 +53,14 @@ class SampleApp(Tk):
             self.geometry("800x600")
         else:
             self.title("Game")
-            self.geometry("455x900")
+            self.geometry("456x900")
         # Show a frame for the given page name
         frame = self.frames[page_name]
         frame.tkraise()
+
+    def custom(self, width):
+        width = (2+width)*76
+        self.geometry("{}x900".format(width))
 
 
 def Rules():
@@ -59,7 +69,7 @@ def Rules():
     webbrowser.open("Rules.txt")
 
 
-def on_click(i, j, event):
+def on_click(i, j, event, width):
     global turncount
     colors = ["grey", "red", "purple", "blue", "yellow", "green", "orange", "white", "pink"]
     # finder værdierne til det label man trykkede på
@@ -70,7 +80,7 @@ def on_click(i, j, event):
     config = event.widget.config
     print("Color:", lblcolor, ", Tile column:", tilex, ", Tile row:", tiley)
 
-    if 5 > tilex > 0 and tiley == turncount:
+    if width >= tilex > 0 and tiley == turncount:
         print("Valid pick")
         if lblnumber == 8:
             lblnumber = 1
@@ -80,16 +90,15 @@ def on_click(i, j, event):
         config(bg=colors[int(lblnumber)])
 
 
-def check():
-    global turncount, labels1, labelswhite, labelsred, logik, code
+def check(turncount, labels1, labelswhite, labelsred, logik, code, width):
     # print(labels1)
     print("check")
     checklblnum = []
     checklblcol = []
     if turncount < 10:
-        for i in range(4):
-            num = i + ((1 + turncount) * 4) - 4
-            # print(num)
+        for i in range(width):
+            num = i + ((1 + turncount) * width) - width
+            #print(num)
             checklblcol.append(labels1[num].cget("bg"))
             checklblnum.append(labels1[num].cget("text"))
         # print(checklblnum, checklblcol)
@@ -138,7 +147,7 @@ class StartPage(Frame):
         self.StartButton = Button(self, text="Start Game", command=lambda: controller.show_frame("PageOne"),
                                   font=("Arial", "25"), bg="black",
                                   fg="white").place(relx=0.5, rely=0.45, anchor=CENTER)
-        self.CustumButton = Button(self, text="Custom Game", command=self.custom, font=("Arial", "25"), bg="black",
+        self.CustumButton = Button(self, text="Custom Game", command=lambda: controller.show_frame("PageTwo"), font=("Arial", "25"), bg="black",
                                    fg="white").place(relx=0.5, rely=0.575, anchor=CENTER)
         self.RuleButton = Button(self, text="Rules", command=Rules, font=("Arial", "25"), bg="black",
                                  fg="white").place(relx=0.5, rely=0.7, anchor=CENTER)
@@ -147,35 +156,15 @@ class StartPage(Frame):
         # command=lambda: controller.show_frame("PageOne"))
         # button1.pack()
 
-    def custom(self):
-        self.customize = Tk()
-        Label(self.customize, text="Code Length").grid(row=0, column=1)
-        self.codelength = Entry(self.customize)
-        self.codelength.grid(row=1, column=1)
-        Label(self.customize, text="Attempts").grid(row=2, column=1)
-        self.attempts = Entry(self.customize)
-        self.attempts.grid(row=3, column=1)
-        done = Button(self.customize, text="Done", command=self.done).grid(row=4, column=1)
 
-    def done(self):
-        width = self.codelength.get()
-        height = self.attempts.get()
-        self.controller.show_frame("PageOne")
-        self.customize.destroy()
-        self.controller.destroy()
-        self.controller.__init__()
-        self.controller.update()
 
 
 class PageOne(Frame):
-    def __init__(self, parent, controller, board):
+    def __init__(self, parent, controller):
         Frame.__init__(self, parent)
-        if not "width" in locals() and not "height" in locals():
-            width = 4
-            height = 10
         self.controller = controller
         self.configure(bg="royalblue2")
-
+        board = Board(width,height)
         label = Label(self, text="This is page 1")
         label.place(x=10, y=860)
         button = Button(self, text="Go to the start page",
@@ -187,7 +176,7 @@ class PageOne(Frame):
                 lbl = Label(self, text="0", bg='grey', relief="groove")
                 labels1.append(lbl)
                 k = len(labels1) - 1
-                labels1[k].bind('<Button-1>', lambda e, i=i, j=j: on_click(i, j, e))
+                labels1[k].bind('<Button-1>', lambda e, i=i, j=j: on_click(i, j, e, width))
                 labels1[k].grid(row=i, column=1 + j)
                 labels1[k].config(width=10, height=5)
 
@@ -205,9 +194,65 @@ class PageOne(Frame):
             labelsred[k].grid(row=i, column=5)
             labelsred[k].config(width=10, height=5)
 
-        button = Button(self, text="Check", command=check)
+        button = Button(self, text="Check", command=lambda: check(turncount, labels1, labelswhite, labelsred, logik, code, width))
         button.place(x=400, y=830)
 
+class PageTwo(Frame):
+    def __init__(self, parent, controller):
+        Frame.__init__(self, parent)
+        self.controller = controller
+        self.configure(bg="royalblue2")
+        label = Label(self, text="This is page 2")
+        label.place(x=10, y=860)
+        button = Button(self, text="Go to the start page",
+                        command=lambda: controller.show_frame("StartPage"))
+        button.place(x=10, y=830)
+        self.codelengthtxt = Label(self, text="Code Length")
+        self.codelengthtxt.grid(row=0, column=1)
+        self.codelength = Entry(self)
+        self.codelength.grid(row=1, column=1)
+        self.attemptstxt = Label(self, text="Attempts")
+        self.attemptstxt.grid(row=2, column=1)
+        self.attempts = Entry(self)
+        self.attempts.grid(row=3, column=1)
+
+        Button(self, text="Done", command=self.build).grid(row=4, column=1)
+
+    def build(self):
+        width2 = int(self.codelength.get())
+        height2 = int(self.attempts.get())
+        self.attempts.destroy()
+        self.codelength.destroy()
+        self.attemptstxt.destroy()
+        self.codelengthtxt.destroy()
+        self.controller.custom(width2)
+        code2 = logik.randomkode(width2)
+        board2 = Board(width2, height2)
+        for i, row in enumerate(board2):
+            for j, column in enumerate(row):
+                lbl = Label(self, text="0", bg='grey', relief="groove")
+                labels2.append(lbl)
+                k = len(labels2) - 1
+                labels2[k].bind('<Button-1>', lambda e, i=i, j=j: on_click(i, j, e, width2))
+                labels2[k].grid(row=i, column=1 + j)
+                labels2[k].config(width=10, height=5)
+
+        for i, row in enumerate(board2):
+            lbl2 = Label(self, text="hvid", bg='white', relief="groove")
+            labelswhite2.append(lbl2)
+            k = len(labelswhite2) - 1
+            labelswhite2[k].grid(row=i, column=0)
+            labelswhite2[k].config(width=10, height=5)
+
+        for i, row in enumerate(board2):
+            lbl3 = Label(self, text="rød", bg='red', relief="groove")
+            labelsred2.append(lbl3)
+            k = len(labelsred2) - 1
+            labelsred2[k].grid(row=i, column=width2+1)
+            labelsred2[k].config(width=10, height=5)
+
+        button = Button(self, text="Check", command=lambda: check(turncount, labels2, labelswhite2, labelsred2, logik, code2, width2))
+        button.place(x=400, y=830)
 
 if __name__ == "__main__":
     app = SampleApp()
