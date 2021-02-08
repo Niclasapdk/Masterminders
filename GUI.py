@@ -9,9 +9,13 @@ from PIL import ImageTk, Image
 turncount = 0
 width = 4
 height = 10
-def Board(width, height):
+
+
+def boardcreate(width, height):
     board = [[None] * width for _ in range(height)]
     return board
+
+
 labels1 = []
 labelswhite = []
 labelsred = []
@@ -59,7 +63,7 @@ class SampleApp(Tk):
         frame.tkraise()
 
     def custom(self, width):
-        width = (2+width)*76
+        width = (2 + width) * 76
         self.geometry("{}x900".format(width))
 
 
@@ -98,7 +102,7 @@ def check(turncount, labels1, labelswhite, labelsred, logik, code, width):
     if turncount < 10:
         for i in range(width):
             num = i + ((1 + turncount) * width) - width
-            #print(num)
+            # print(num)
             checklblcol.append(labels1[num].cget("bg"))
             checklblnum.append(labels1[num].cget("text"))
         # print(checklblnum, checklblcol)
@@ -147,7 +151,8 @@ class StartPage(Frame):
         self.StartButton = Button(self, text="Start Game", command=lambda: controller.show_frame("PageOne"),
                                   font=("Arial", "25"), bg="black",
                                   fg="white").place(relx=0.5, rely=0.45, anchor=CENTER)
-        self.CustumButton = Button(self, text="Custom Game", command=lambda: controller.show_frame("PageTwo"), font=("Arial", "25"), bg="black",
+        self.CustumButton = Button(self, text="Custom Game", command=lambda: controller.show_frame("PageTwo"),
+                                   font=("Arial", "25"), bg="black",
                                    fg="white").place(relx=0.5, rely=0.575, anchor=CENTER)
         self.RuleButton = Button(self, text="Rules", command=Rules, font=("Arial", "25"), bg="black",
                                  fg="white").place(relx=0.5, rely=0.7, anchor=CENTER)
@@ -157,14 +162,12 @@ class StartPage(Frame):
         # button1.pack()
 
 
-
-
 class PageOne(Frame):
     def __init__(self, parent, controller):
         Frame.__init__(self, parent)
         self.controller = controller
         self.configure(bg="royalblue2")
-        board = Board(width,height)
+        board = boardcreate(width, height)
         label = Label(self, text="This is page 1")
         label.place(x=10, y=860)
         button = Button(self, text="Go to the start page",
@@ -194,8 +197,10 @@ class PageOne(Frame):
             labelsred[k].grid(row=i, column=5)
             labelsred[k].config(width=10, height=5)
 
-        button = Button(self, text="Check", command=lambda: check(turncount, labels1, labelswhite, labelsred, logik, code, width))
+        button = Button(self, text="Check",
+                        command=lambda: check(turncount, labels1, labelswhite, labelsred, logik, code, width))
         button.place(x=400, y=830)
+
 
 class PageTwo(Frame):
     def __init__(self, parent, controller):
@@ -227,7 +232,7 @@ class PageTwo(Frame):
         self.codelengthtxt.destroy()
         self.controller.custom(width2)
         code2 = logik.randomkode(width2)
-        board2 = Board(width2, height2)
+        board2 = boardcreate(width2, height2)
         for i, row in enumerate(board2):
             for j, column in enumerate(row):
                 lbl = Label(self, text="0", bg='grey', relief="groove")
@@ -248,11 +253,13 @@ class PageTwo(Frame):
             lbl3 = Label(self, text="rød", bg='red', relief="groove")
             labelsred2.append(lbl3)
             k = len(labelsred2) - 1
-            labelsred2[k].grid(row=i, column=width2+1)
+            labelsred2[k].grid(row=i, column=width2 + 1)
             labelsred2[k].config(width=10, height=5)
 
-        button = Button(self, text="Check", command=lambda: check(turncount, labels2, labelswhite2, labelsred2, logik, code2, width2))
+        button = Button(self, text="Check",
+                        command=lambda: check(turncount, labels2, labelswhite2, labelsred2, logik, code2, width2))
         button.place(x=400, y=830)
+
 
 if __name__ == "__main__":
     app = SampleApp()
