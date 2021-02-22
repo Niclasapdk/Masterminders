@@ -15,6 +15,7 @@ labels2 = []
 labelswhite2 = []
 labelsred2 = []
 logik = Logik.MastermindLogik()
+# Generate code
 code = logik.randomkode(width)
 
 
@@ -79,17 +80,17 @@ def check(labels1, labelswhite, labelsred, logik, code, width, height):
             Winner = Tk()
             lbl = Label(Winner, text="You won!")
             lbl.grid(row=1, column=1)
-            done = Button(Winner, text="Quit", command=winner)
+            done = Button(Winner, text="Quit", command=Exit)
             done.grid(row=2, column=1)
         elif turncount == height:
             Loser = Tk()
             lbl = Label(Loser, text="You lost!")
             lbl.grid(row=1, column=1)
-            done = Button(Loser, text="Quit", command=winner)
+            done = Button(Loser, text="Quit", command=Exit)
             done.grid(row=2, column=1)
 
 
-def winner():
+def Exit():
     exit()
 
 
@@ -158,7 +159,7 @@ class StartPage(Frame):
                                    fg="white").place(relx=0.5, rely=0.575, anchor=CENTER)
         self.RuleButton = Button(self, text="Rules", command=Rules, font=("Arial", "25"), bg="black",
                                  fg="white").place(relx=0.5, rely=0.7, anchor=CENTER)
-        self.QuitButton = Button(self, text="Exit", command=winner, font=("Arial", "25"), bg="black",
+        self.QuitButton = Button(self, text="Exit", command=Exit, font=("Arial", "25"), bg="black",
                                  fg="white").place(relx=0.5, rely=0.825, anchor=CENTER)
 
 
