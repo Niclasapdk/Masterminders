@@ -8,13 +8,6 @@ from PIL import ImageTk, Image
 turncount = 0
 width = 4
 height = 10
-
-
-def boardcreate(width, height):
-    board = [[None] * width for _ in range(height)]
-    return board
-
-
 labels1 = []
 labelswhite = []
 labelsred = []
@@ -25,42 +18,9 @@ logik = Logik.MastermindLogik()
 code = logik.randomkode(width)
 
 
-class SampleApp(Tk):
-    def __init__(self, *args, **kwargs):
-        Tk.__init__(self, *args, **kwargs)
-        # the container is where we'll stack a bunch of frames on top of each other, then the one we want visible
-        # will be raised above the others
-        container = Frame(self)
-        container.pack(side="top", fill="both", expand=True)
-        container.grid_rowconfigure(0, weight=1)
-        container.grid_columnconfigure(0, weight=1)
-
-        self.frames = {}
-        for F in (StartPage, PageOne, PageTwo):
-            page_name = F.__name__
-            frame = F(parent=container, controller=self)
-            self.frames[page_name] = frame
-
-            # put all of the pages in the same location the one on the top of the stacking order will be the one that
-            # is visible.
-            frame.grid(row=0, column=0, sticky="nsew")
-
-        self.show_frame("StartPage")
-
-    def show_frame(self, page_name):
-        if page_name == "StartPage":
-            self.title("Main Menu")
-            self.geometry("800x600")
-        else:
-            self.title("Game")
-            self.geometry("456x900")
-        # Show a frame for the given page name
-        frame = self.frames[page_name]
-        frame.tkraise()
-
-    def custom(self, width):
-        width = (2 + width) * 76
-        self.geometry("{}x900".format(width))
+def boardcreate(width, height):
+    board = [[None] * width for _ in range(height)]
+    return board
 
 
 def Rules():
@@ -133,6 +93,44 @@ def winner():
     exit()
 
 
+class SampleApp(Tk):
+    def __init__(self, *args, **kwargs):
+        Tk.__init__(self, *args, **kwargs)
+        # the container is where we'll stack a bunch of frames on top of each other, then the one we want visible
+        # will be raised above the others
+        container = Frame(self)
+        container.pack(side="top", fill="both", expand=True)
+        container.grid_rowconfigure(0, weight=1)
+        container.grid_columnconfigure(0, weight=1)
+
+        self.frames = {}
+        for F in (StartPage, PageOne, PageTwo):
+            page_name = F.__name__
+            frame = F(parent=container, controller=self)
+            self.frames[page_name] = frame
+
+            # put all of the pages in the same location the one on the top of the stacking order will be the one that
+            # is visible.
+            frame.grid(row=0, column=0, sticky="nsew")
+
+        self.show_frame("StartPage")
+
+    def show_frame(self, page_name):
+        if page_name == "StartPage":
+            self.title("Main Menu")
+            self.geometry("800x600")
+        else:
+            self.title("Game")
+            self.geometry("456x900")
+        # Show a frame for the given page name
+        frame = self.frames[page_name]
+        frame.tkraise()
+
+    def custom(self, width):
+        width = (2 + width) * 76
+        self.geometry("{}x900".format(width))
+
+
 class StartPage(Frame):
     def __init__(self, parent, controller):
         Frame.__init__(self, parent)
@@ -152,11 +150,13 @@ class StartPage(Frame):
         self.StartButton = Button(self, text="Start Game", command=lambda: controller.show_frame("PageOne"),
                                   font=("Arial", "25"), bg="black",
                                   fg="white").place(relx=0.5, rely=0.45, anchor=CENTER)
-        self.CustumButton = Button(self, text="Custom Game", command=lambda: controller.show_frame("PageTwo"),
+        self.CustomButton = Button(self, text="Custom Game", command=lambda: controller.show_frame("PageTwo"),
                                    font=("Arial", "25"), bg="black",
                                    fg="white").place(relx=0.5, rely=0.575, anchor=CENTER)
         self.RuleButton = Button(self, text="Rules", command=Rules, font=("Arial", "25"), bg="black",
                                  fg="white").place(relx=0.5, rely=0.7, anchor=CENTER)
+        self.QuitButton = Button(self, text="Exit", command=winner, font=("Arial", "25"), bg="black",
+                                 fg="white").place(relx=0.5, rely=0.825, anchor=CENTER)
 
 
 class PageOne(Frame):

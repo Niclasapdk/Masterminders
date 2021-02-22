@@ -1,4 +1,4 @@
-Object of the Game
+Objective of the Game
 To outsmart your opponent with a clever code or great guesswork.
 As the Codemaker: your goal is to set a mystery code so cunning that it will keep your opponent guessing for as long as possible.
 As the Decoder: you must break the secret code in the fewest number of guesses.
