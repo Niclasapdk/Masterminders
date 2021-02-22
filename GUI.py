@@ -119,6 +119,9 @@ class SampleApp(Tk):
         if page_name == "StartPage":
             self.title("Main Menu")
             self.geometry("800x600")
+        elif page_name =="PageTwo":
+            self.title("Custom")
+            self.geometry("250x900")
         else:
             self.title("Game")
             self.geometry("456x900")
@@ -218,12 +221,21 @@ class PageTwo(Frame):
         self.attempts = Entry(self)
         self.attempts.grid(row=3, column=1)
 
-        self.done = Button(self, text="Done", command=self.build)
+        self.done = Button(self, text="Done", command=self.test)
         self.done.grid(row=4, column=1)
 
+    def test(self):
+        if 0 < int(self.codelength.get()) < 8 and int(self.attempts.get()) > 0:
+            self.width2 = int(self.codelength.get())
+            self.height2 = int(self.attempts.get())
+            self.build()
+        else:
+            error = Tk()
+            Label(error, text="Code lenght must be between 1 and 8, and height greater than 0").grid(row=1, column=1)
+
     def build(self):
-        width2 = int(self.codelength.get())
-        height2 = int(self.attempts.get())
+        width2 = self.width2
+        height2 = self.height2
         self.attempts.destroy()
         self.codelength.destroy()
         self.attemptstxt.destroy()
