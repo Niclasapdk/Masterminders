@@ -5,7 +5,6 @@ from tkinter import *
 from PIL import ImageTk, Image
 
 # Variables used for game
-
 turncount = 0
 width = 4
 height = 10
@@ -29,12 +28,10 @@ code = logik.randomkode(width)
 class SampleApp(Tk):
     def __init__(self, *args, **kwargs):
         Tk.__init__(self, *args, **kwargs)
-        # the container is where we'll stack a bunch of frames
-        # on top of each other, then the one we want visible
+        # the container is where we'll stack a bunch of frames on top of each other, then the one we want visible
         # will be raised above the others
         container = Frame(self)
         container.pack(side="top", fill="both", expand=True)
-        # container.grid(sticky="N",ipadx = "200", ipady="200")
         container.grid_rowconfigure(0, weight=1)
         container.grid_columnconfigure(0, weight=1)
 
@@ -44,9 +41,8 @@ class SampleApp(Tk):
             frame = F(parent=container, controller=self)
             self.frames[page_name] = frame
 
-            # put all of the pages in the same location;
-            # the one on the top of the stacking order
-            # will be the one that is visible.
+            # put all of the pages in the same location the one on the top of the stacking order will be the one that
+            # is visible.
             frame.grid(row=0, column=0, sticky="nsew")
 
         self.show_frame("StartPage")
@@ -73,16 +69,17 @@ def Rules():
     webbrowser.open("Rules.txt")
 
 
+# Function that runs when clicking on a label
 def on_click(i, j, event, width):
     global turncount
     colors = ["grey", "red", "purple", "blue", "yellow", "green", "orange", "white", "pink"]
-    # finder værdierne til det label man trykkede på
+    # Finds the values of the label
     lblcolor = event.widget.cget("bg")
     lblnumber = event.widget.cget("text")
     tilex = event.widget.grid_info()["column"]
     tiley = event.widget.grid_info()["row"]
     config = event.widget.config
-    print("Color:", lblcolor, ", Tile column:", tilex, ", Tile row:", tiley)
+    # print("Color:", lblcolor, ", Tile column:", tilex, ", Tile row:", tiley)
 
     if width >= tilex > 0 and tiley == turncount:
         print("Valid pick")
@@ -94,13 +91,13 @@ def on_click(i, j, event, width):
         config(bg=colors[int(lblnumber)])
 
 
-def check(labels1, labelswhite, labelsred, logik, code, width):
+def check(labels1, labelswhite, labelsred, logik, code, width, height):
     global turncount
     # print(labels1)
     print("check")
     checklblnum = []
     checklblcol = []
-    if turncount < 10:
+    if turncount < height:
         for i in range(width):
             num = i + ((1 + turncount) * width) - width
             # print(num)
@@ -117,20 +114,23 @@ def check(labels1, labelswhite, labelsred, logik, code, width):
 
         labelsred[turncount].config(text=result.count("check"))
         labelswhite[turncount].config(text=result.count("half"))
+        turncount += 1
         if check == width:
             Winner = Tk()
             lbl = Label(Winner, text="You won!")
             lbl.grid(row=1, column=1)
             done = Button(Winner, text="Quit", command=winner)
             done.grid(row=2, column=1)
-        turncount += 1
+        elif turncount == height:
+            Loser = Tk()
+            lbl = Label(Loser, text="You lost!")
+            lbl.grid(row=1, column=1)
+            done = Button(Loser, text="Quit", command=winner)
+            done.grid(row=2, column=1)
 
 
 def winner():
-    # SampleApp.show_frame("StartPage")
-    #SampleApp.destroy()
-    #SampleApp.__init__()
-    pass
+    exit()
 
 
 class StartPage(Frame):
@@ -148,7 +148,6 @@ class StartPage(Frame):
         self.test = ImageTk.PhotoImage(self.image)
 
         self.titleimg = Label(self, image=self.test).place(relx=0.5, rely=0.19, anchor=CENTER)
-        # self.Title = Label(self.root, text="MASTERMIND",font=("Times", "50", "bold"), bg="royalblue2", fg ="red4").place(relx=0.5, rely=0.2, anchor=CENTER)
 
         self.StartButton = Button(self, text="Start Game", command=lambda: controller.show_frame("PageOne"),
                                   font=("Arial", "25"), bg="black",
@@ -158,10 +157,6 @@ class StartPage(Frame):
                                    fg="white").place(relx=0.5, rely=0.575, anchor=CENTER)
         self.RuleButton = Button(self, text="Rules", command=Rules, font=("Arial", "25"), bg="black",
                                  fg="white").place(relx=0.5, rely=0.7, anchor=CENTER)
-
-        # button1 = Button(self, text="Go to Page One",
-        # command=lambda: controller.show_frame("PageOne"))
-        # button1.pack()
 
 
 class PageOne(Frame):
@@ -200,7 +195,7 @@ class PageOne(Frame):
             labelsred[k].config(width=10, height=5)
 
         button = Button(self, text="Check",
-                        command=lambda: check(labels1, labelswhite, labelsred, logik, code, width))
+                        command=lambda: check(labels1, labelswhite, labelsred, logik, code, width, height))
         button.place(x=400, y=830)
 
 
@@ -261,10 +256,9 @@ class PageTwo(Frame):
             labelsred2[k].config(width=10, height=5)
 
         button = Button(self, text="Check",
-                        command=lambda: check(labels2, labelswhite2, labelsred2, logik, code2, width2))
-        button.grid(row=(height2+2), column=width2)
+                        command=lambda: check(labels2, labelswhite2, labelsred2, logik, code2, width2, height2))
+        button.grid(row=(height2 + 2), column=width2)
 
 
-if __name__ == "__main__":
-    app = SampleApp()
-    app.mainloop()
+app = SampleApp()
+app.mainloop()
