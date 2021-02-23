@@ -120,9 +120,9 @@ class SampleApp(Tk):
         if page_name == "StartPage":
             self.title("Main Menu")
             self.geometry("800x600")
-        elif page_name =="PageTwo":
+        elif page_name == "PageTwo":
             self.title("Custom")
-            self.geometry("250x900")
+            self.geometry("210x220")
         else:
             self.title("Game")
             self.geometry("456x900")
@@ -130,9 +130,10 @@ class SampleApp(Tk):
         frame = self.frames[page_name]
         frame.tkraise()
 
-    def custom(self, width):
+    def custom(self, width, height):
         width = (2 + width) * 76
-        self.geometry("{}x900".format(width))
+        height = (2 + height) *76
+        self.geometry("{}x{}".format(width,height))
 
 
 class StartPage(Frame):
@@ -208,22 +209,22 @@ class PageTwo(Frame):
         Frame.__init__(self, parent)
         self.controller = controller
         self.configure(bg="royalblue2")
-        label = Label(self, text="This is page 2")
-        label.place(x=10, y=860)
-        button = Button(self, text="Go to the start page",
+        self.label = Label(self, text="This is page 2")
+        self.label.grid(row=5, column=1, pady=5)
+        self.button = Button(self, text="Start page",
                         command=lambda: controller.show_frame("StartPage"))
-        button.place(x=10, y=830)
+        self.button.grid(row=6, column=1)
         self.codelengthtxt = Label(self, text="Code Length")
-        self.codelengthtxt.grid(row=0, column=1)
+        self.codelengthtxt.grid(row=0, column=1, pady=5)
         self.codelength = Entry(self)
-        self.codelength.grid(row=1, column=1)
+        self.codelength.grid(row=1, column=1, padx=40, pady=5)
         self.attemptstxt = Label(self, text="Attempts")
-        self.attemptstxt.grid(row=2, column=1)
+        self.attemptstxt.grid(row=2, column=1, pady=5)
         self.attempts = Entry(self)
-        self.attempts.grid(row=3, column=1)
+        self.attempts.grid(row=3, column=1, pady=5)
 
         self.done = Button(self, text="Done", command=self.test)
-        self.done.grid(row=4, column=1)
+        self.done.grid(row=4, column=1, pady=5)
 
     def test(self):
         if 0 < int(self.codelength.get()) < 8 and int(self.attempts.get()) > 0:
@@ -241,8 +242,9 @@ class PageTwo(Frame):
         self.codelength.destroy()
         self.attemptstxt.destroy()
         self.codelengthtxt.destroy()
-        self.controller.custom(width2)
+        self.controller.custom(width2, height2)
         self.done.destroy()
+
         code2 = logik.randomkode(width2)
         board2 = boardcreate(width2, height2)
         for i, row in enumerate(board2):
@@ -271,6 +273,10 @@ class PageTwo(Frame):
         button = Button(self, text="Check",
                         command=lambda: check(labels2, labelswhite2, labelsred2, logik, code2, width2, height2))
         button.grid(row=(height2 + 2), column=width2)
+        self.label.grid(row=height2+2, column=1, pady=5)
+        self.button.grid(row=height2+3, column=1, pady=1)
+
+
 
 
 app = SampleApp()
