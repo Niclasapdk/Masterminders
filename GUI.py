@@ -1,5 +1,4 @@
-import Logik
-import webbrowser
+import Logik, sys, webbrowser
 from tkinter import *
 
 from PIL import ImageTk, Image
@@ -91,7 +90,7 @@ def check(labels1, labelswhite, labelsred, logik, code, width, height):
 
 
 def Exit():
-    exit()
+    sys.exit()
 
 
 class SampleApp(Tk):
