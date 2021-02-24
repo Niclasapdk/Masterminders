@@ -1,2 +1,2 @@
 # Masterminders
-Skriv hvilke addon og packages vi bruger
+Programmet bruger Pillow, tkinter og webbrowser

@@ -1,6 +1,5 @@
-import Logik, sys, webbrowser
+import Logik, webbrowser, sys
 from tkinter import *
-
 from PIL import ImageTk, Image
 
 # Variables used for game
